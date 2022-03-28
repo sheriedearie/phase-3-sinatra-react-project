@@ -22,7 +22,7 @@ class TodosController < ApplicationController
 
 # GET: /todos
   get "/todos/:id" do
-    Todo.all.to_json
+    todo = Todo.find_by(params[:id]).to_json
   end
 
 # DELETE: /todos/5/delete
