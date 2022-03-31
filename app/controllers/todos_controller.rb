@@ -22,16 +22,26 @@ class TodosController < ApplicationController
 
 # GET: /todos
   get "/todos/:id" do
-    todo = Todo.find_by(params[:id]).to_json
+    todo = Todo.find_by_id(params[:id]).to_json
   end
 
 # DELETE: /todos/5/delete
   delete "/todos/:id" do
-    todo = Todo.find(params[:id])
+    todo = Todo.find_by_id(params[:id])
     if todo.destroy
       {messages: "Record successfully destroyed"}.to_json
     else
       {errors: "Cannot delete todo list"}.to_json
       end
     end
+
+    # PATCH
+    patch "/todos/:id" do
+      todo = Todo.find_by_id(params[:id])
+      if todo&.update(completed: params[:completed])
+        {messages: "Record successfully updated"}.to_json
+      else
+        {errors: "Cannot update todo list"}.to_json
+        end
+      end
   end
